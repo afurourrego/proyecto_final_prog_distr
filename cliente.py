@@ -41,7 +41,7 @@ def account_screen():
     main_screen.title("Account Login")
 
     Label(main_screen, height="2").pack()
-    Label(main_screen, text="El Chatsito", height="2", font=("Calibri", 13)).pack()
+    Label(main_screen, text="Game Tank", height="2", font=("Calibri", 13)).pack()
     Label(main_screen, text="").pack()
     Button(main_screen, text="Iniciar sesion", height="2", width="30", command = login_formulario).pack()
     Label(main_screen, text="").pack()
@@ -217,7 +217,7 @@ def login_error(mensaje):
 def Home():
     global home
 
-    home.title("El Chatsito")
+    home.title("Game Tank")
 
     width = 750
     height = 520
