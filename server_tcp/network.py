@@ -1,5 +1,5 @@
-import socket 
-import json 
+import socket
+import json
 
 
 try:
@@ -13,7 +13,7 @@ class Network:
     def __init__(self):
         self.client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         self.HOST = "localhost"
-        self.PORT = 10030
+        self.PORT = 9998
         self.addr = (self.HOST,self.PORT)
         #self.pos = self.connect()
         self.key = self.connect()
@@ -24,9 +24,9 @@ class Network:
         return self.key
 
     def connect(self):
-        
+
         try:
-        
+
             self.client.connect(self.addr)
 
             data_c = package.unpack(self.client.recv(2048))

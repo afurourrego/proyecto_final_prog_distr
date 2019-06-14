@@ -8,20 +8,20 @@ from _thread import *
 import package
 
 HOST = "localhost"
-PORT = 10030
+PORT = 9998
 
 
-s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
+servidor = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+servidor.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
 
 try:
-    s.bind((HOST,PORT))
+    servidor.bind((HOST,PORT))
 
 except socket.error as e:
     print(str(e))
 
-s.listen(2)
-print("Waiting for a connection, Server Started")
+servidor.listen(2)
+print("Waiting for a cliente_localection, Server Started")
 
 #pos = [(300,300),(60,300)]
 key = {
@@ -63,17 +63,17 @@ keys_players = [key,key_2]
 #     return str(tup[0]) + "," + str(tup[1])
 
 
-def threaded_client(conn, player):
+def threaded_client(cliente_local, player):
 
     #data_s = package.pack(make_pos(pos[player]))
     data_s = package.pack(keys_players[player])
-    conn.send(data_s)
+    cliente_local.send(data_s)
 
     reply = ""
 
     while 1:
         try:
-            data_c = package.unpack(conn.recv(2048))
+            data_c = package.unpack(cliente_local.recv(2048))
             #data = read_pos(data_c)
 
             #pos[player] = data
@@ -95,22 +95,21 @@ def threaded_client(conn, player):
 
             #data_s = package.pack(make_pos(reply))
             data_s = package.pack(reply)
-            conn.send(data_s)
+            cliente_local.send(data_s)
 
         except socket.error as e:
             print(e)
             break
 
     print("Lost Connection ")
-    conn.close()
+    cliente_local.close()
 
 currentPlayer = 0
 
 while 1:
 
-    conn,addr = s.accept()
-    print("Connectd to", addr)
+    cliente_local,direccion_cliente = servidor.accept()
+    print("Connectd to", direccion_cliente)
 
-    #th.Thread( target = threaded_client,args= (conn,)).start()
-    start_new_thread(threaded_client, (conn, currentPlayer))
+    start_new_thread(threaded_client, (cliente_local, currentPlayer))
     currentPlayer += 1
